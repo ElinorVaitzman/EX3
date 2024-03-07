@@ -3,82 +3,122 @@ let visitors = [
   {
     name: "John Smith",
     coins: 50,
+    interactions: {},
+    feedings: {},
   },
   {
     name: "Emily Johnson",
     coins: 50,
+    interactions: {},
+    feedings: {},
   },
   {
     name: "Michael Williams",
     coins: 50,
+    interactions: {},
+    feedings: {},
   },
   {
     name: "Jessica Brown",
     coins: 50,
+    interactions: {},
+    feedings: {},
   },
   {
     name: "Christopher Jones",
     coins: 50,
+    interactions: {},
+    feedings: {},
   },
   {
     name: "Ashley Davis",
     coins: 50,
+    interactions: {},
+    feedings: {},
   },
   {
     name: "Matthew Miller",
     coins: 50,
+    interactions: {},
+    feedings: {},
   },
   {
     name: "Amanda Wilson",
     coins: 50,
+    interactions: {},
+    feedings: {},
   },
   {
     name: "David Moore",
     coins: 50,
+    interactions: {},
+    feedings: {},
   },
   {
     name: "Sarah Taylor",
     coins: 50,
+    interactions: {},
+    feedings: {},
   },
   {
     name: "James Anderson",
     coins: 50,
+    interactions: {},
+    feedings: {},
   },
   {
     name: "Jennifer Thomas",
     coins: 50,
+    interactions: {},
+    feedings: {},
   },
   {
     name: "Robert Jackson",
     coins: 50,
+    interactions: {},
+    feedings: {},
   },
   {
     name: "Elizabeth White",
     coins: 50,
+    interactions: {},
+    feedings: {},
   },
   {
     name: "Daniel Harris",
     coins: 50,
+    interactions: {},
+    feedings: {},
   },
   {
     name: "Melissa Martin",
     coins: 50,
+    interactions: {},
+    feedings: {},
   },
   {
     name: "William Thompson",
     coins: 50,
+    interactions: {},
+    feedings: {},
   },
   {
     name: "Linda Garcia",
     coins: 50,
+    interactions: {},
+    feedings: {},
   },
   {
     name: "Joseph Martinez",
     coins: 50,
+    interactions: {},
+    feedings: {},
   },
   {
     name: "Karen Robinson",
     coins: 50,
+    interactions: {},
+    feedings: {},
   },
 ];
 
@@ -90,6 +130,8 @@ let animals = [
     height: 120,
     color: "brown",
     habitat: "land",
+    image: "https://i.ibb.co/XtsS940/lion.jpg",
+    angryImage: "https://i.ibb.co/C5pCYBr/angry-lion.png",
   },
   {
     name: "Elephant",
@@ -98,6 +140,7 @@ let animals = [
     height: 200,
     color: "grey",
     habitat: "land",
+    image: "https://i.ibb.co/f1k9Xk2/elephant3.jpg",
   },
   {
     name: "Giraffe",
@@ -106,6 +149,7 @@ let animals = [
     height: 120,
     color: "brown",
     habitat: "land",
+    image: "https://i.ibb.co/GxKZ81s/giraffe.jpg",
   },
   {
     name: "Tiger",
@@ -114,6 +158,8 @@ let animals = [
     height: 120,
     color: "brown",
     habitat: "land",
+    image: "https://i.ibb.co/qDQzMFP/tiger2.jpg",
+    angryImage: "https://i.ibb.co/PgpV2zX/angry-tiger2.png",
   },
   {
     name: "Monkey",
@@ -122,6 +168,7 @@ let animals = [
     height: 120,
     color: "brown",
     habitat: "land",
+    image: "https://i.ibb.co/Lgr6HKc/monkey.jpg",
   },
   {
     name: "Kangaroo",
@@ -130,22 +177,25 @@ let animals = [
     height: 120,
     color: "brown",
     habitat: "land",
+    image: "https://i.ibb.co/rwvfK2K/kangaroo.jpg",
   },
   {
     name: "Penguin",
     isPredator: false,
     weight: 100,
     height: 120,
-    color: "brown",
+    color: "black",
     habitat: "sea",
+    image: "https://i.ibb.co/XWwwr4s/penguin.jpg",
   },
   {
     name: "Zebra",
     isPredator: false,
     weight: 100,
     height: 120,
-    color: "brown",
+    color: "white",
     habitat: "land",
+    image: "https://i.ibb.co/M85C03J/zebra.jpg",
   },
   {
     name: "Cheetah",
@@ -154,6 +204,8 @@ let animals = [
     height: 120,
     color: "brown",
     habitat: "land",
+    image: "https://i.ibb.co/Csf8RCq/cheetah.jpg",
+    angryImage: "https://i.ibb.co/55TGrzX/angry-cheetah2.png",
   },
 ];
 
@@ -174,6 +226,107 @@ function generateDataset() {
   console.log(visitors);
 }
 generateDataset();
+
+// navbar rendering
+function renderNavbar() {
+  // page check
+  const currentPage = window.location.pathname.split("/").pop(); //extracting the current page filename from the url
+  if (
+    currentPage !== "zoo.html" &&
+    currentPage !== "animal.html" &&
+    currentPage !== "dashboard.html"
+  )
+    return; //not rendering the navbar on other pages
+  const navbarDiv = document.getElementById("navbar");
+  navbarDiv.innerHTML = `
+  <nav id="navbar">
+  <div class="navbar-container">
+    <div class="visitor-info">
+      <span id="current-visitor"></span>
+      <span id="visitor-coins"></span>
+    </div>
+    <div class="navbar-right">
+    <h5>Choose Visitor:</h5>
+      <select id="visitors-dropdown"></select>
+      <button id="reset-button">Reset</button>
+    </div>
+  </div>
+</nav>
+  `;
+
+  // render the current visitor info
+  const currentVisitor = JSON.parse(localStorage.getItem("currentVisitor"));
+  const currenVisitorInfo = document.getElementById("current-visitor");
+  const visitorCoins = document.getElementById("visitor-coins");
+  if (currentVisitor) {
+    currenVisitorInfo.textContent = `Logged in as: ${currentVisitor.name} ,`;
+    visitorCoins.textContent = `Coins: ${currentVisitor.coins}`;
+  } else {
+    currenVisitorInfo.textContent = `No visitor logged in`;
+    visitorCoins.textContent = "";
+    alert("Warning! you can't be here if you are not logged in!");
+    window.location.href = "login.html";
+  }
+
+  // visitors dropdown
+  const visitorsDropdown = document.getElementById("visitors-dropdown");
+  visitors.forEach((visitor) => {
+    const option = document.createElement("option");
+    option.text = visitor.name;
+    visitorsDropdown.add(option);
+  });
+  // event listener to visitors dropdown
+  visitorsDropdown.addEventListener("change", (e) => {
+    const selectedVisitor = visitors.find(
+      (visitor) => visitor.name === e.target.value
+    );
+    localStorage.setItem("currentVisitor", JSON.stringify(selectedVisitor));
+    location.reload();
+  });
+  if (currentVisitor) {
+    visitorsDropdown.value = currentVisitor.name;
+  }
+
+  // event listener to reset button
+  const resetButton = document.getElementById("reset-button");
+  resetButton.addEventListener("click", () => {
+    localStorage.clear(); //clearing the local storage
+    location.reload();
+  });
+}
+
+// function to track visitor interactions with animals
+function trackVisitorInteraction(animal) {
+  let visitor = JSON.parse(localStorage.getItem("selectedVisitor"));
+  if (!visitor) {
+    console.error("Visitor not found.");
+    return;
+  }
+
+  // update visitor's interactions with the current animal
+  if (!visitor.visits) {
+    visitor.visits = {};
+  }
+  if (!visitor.visits[animal.name]) {
+    visitor.visits[animal.name] = 1;
+  } else {
+    visitor.visits[animal.name]++;
+  }
+
+  // save updated visitor data to local storage
+  localStorage.setItem("selectedVisitor", JSON.stringify(visitor));
+}
+
+// create the dashboard button
+const dashboardButton = document.createElement("li");
+dashboardButton.classList.add("nav-item");
+dashboardButton.innerHTML =
+  '<a href="dashboard.html" class="nav-link">Dashboard</a>';
+
+//find the navbar container
+const navbar = document.querySelector(".navbar-nav");
+
+navbar.appendChild(dashboardButton);
 
 //********************** */
 function logout() {

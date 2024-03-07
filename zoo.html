@@ -6,9 +6,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zoo</title>
     <script src="./main.js"></script>
+    <!-- CSS link -->
+    <link rel="stylesheet" href="./zoo-styles.css" />
+
+    <!-- Bootstrap link -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+
+    <!-- Font style -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Quicksand:wght@300..700&family=Titan+One&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body>
-    <div id="animal-cards"></div>
-    <script src="zoo.js"></script>
+  <body class="zoo-body">
+    <div
+      id="navbar"
+      class="navbar zoo-navbar navbar-expand-lg navbar-light bg-light"
+    ></div>
+    <div class="container main-zoo-container">
+      <h1 class="main-h1">The Zoo</h1>
+    </div>
+    <div class="filters-container">
+      <div class="filter-div">
+        <input
+          type="text"
+          id="name-input"
+          placeholder="Search animal by name"
+        />
+      </div>
+      <div class="filter-div">
+        <label for="habitat">Habitat:</label>
+        <div>
+          <label for="habitat">Land</label>
+          <input type="radio" name="habitat" value="land" />
+        </div>
+        <div>
+          <label for="habitat">Sea</label>
+          <input type="radio" name="habitat" value="sea" />
+        </div>
+      </div>
+      <div class="filter-div">
+        <label for="predator">Is Predator?</label>
+        <input type="checkbox" id="predator" />
+      </div>
+      <select class="filter-div" id="color-filter"></select>
+      <div class="filter-div">
+        <label for="min-height">Min Height:</label>
+        <input type="number" min="0" id="min-height" />
+      </div>
+      <div class="filter-div">
+        <label for="min-weight">Min Weight:</label>
+        <input type="number" min="0" id="min-weight" />
+      </div>
+      <button id="clear-filters-btn" class="btn btn-dark">Clear</button>
+    </div>
+    <div class="animal-cards-container" id="animal-cards"></div>
+    <script src="zoo2.js"></script>
+    <script></script>
   </body>
 </html>
