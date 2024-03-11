@@ -1,27 +1,3 @@
-// Function to track visitor interactions with animals
-function trackVisitorInteraction(animal) {
-  let visitor = JSON.parse(localStorage.getItem("selectedVisitor"));
-  if (!visitor) {
-    console.error("Visitor not found.");
-    return;
-  }
-
-  // Update visitor's interactions with the current animal
-  if (!visitor.interactions) {
-    visitor.interactions = {};
-  }
-  if (!visitor.interactions[animal.name]) {
-    visitor.interactions[animal.name] = 1;
-  } else {
-    visitor.interactions[animal.name]++;
-  }
-
-  // Save updated visitor data to local storage
-  localStorage.setItem("selectedVisitor", JSON.stringify(visitor));
-}
-
-// for dashboard
-
 //carture the elements
 const animalImage = document.getElementById("image");
 const animalName = document.getElementById("name");
@@ -70,7 +46,8 @@ function renderRelatedAnimals() {
       animal.habitat === selectedAnimal.habitat &&
       animal.name !== selectedAnimal.name
   );
-  if (relatedAnimals) {
+
+  if (relatedAnimals.length > 0) {
     relatedAnimals.forEach((animal) => {
       const card = document.createElement("div");
       card.classList.add("related-animal-card");
@@ -83,18 +60,20 @@ function renderRelatedAnimals() {
         let animalName = card.querySelector("h3").textContent;
         let animal = animals.find((a) => a.name === animalName);
         headlineContainer.innerHTML = "";
+        trackVisitorInteraction(animal);
         handleRelatedAnimalClick(animal);
       });
     });
   } else {
+    const noRelatedAnimalsMessage = document.createElement("p");
+    noRelatedAnimalsMessage.textContent = "No related animals found.";
+    relatedAnimalsContainer.appendChild(noRelatedAnimalsMessage);
   }
 }
 
 // handle clicking on related animal cards
 function handleRelatedAnimalClick(animal) {
-  // Set the clicked animal as the selected animal
   localStorage.setItem("selectedAnimal", JSON.stringify(animal));
-  // Render the selected animal
   renderAnimal(animal);
   renderRelatedAnimals();
 }
@@ -111,7 +90,18 @@ function feedAnimal() {
     const visitorsCoins = currentVisitor.coins;
     if (visitorsCoins >= 2) {
       currentVisitor.coins -= 2;
+      // update the visitor object with the new coins value
       localStorage.setItem("currentVisitor", JSON.stringify(currentVisitor));
+
+      // update the visitors array in local storage with the updated current visitor
+      const updatedVisitors = visitors.map((visitor) => {
+        if (visitor.name === currentVisitor.name) {
+          return currentVisitor;
+        }
+        return visitor;
+      });
+      localStorage.setItem("visitors", JSON.stringify(updatedVisitors));
+
       const selectedAnimal = JSON.parse(localStorage.getItem("selectedAnimal"));
       updateModalContent(
         `<p>Thank you for feeding the ${selectedAnimal.name} !</p>`
@@ -119,18 +109,11 @@ function feedAnimal() {
       openModal();
       renderNavbar();
     } else {
+      const selectedAnimal = JSON.parse(localStorage.getItem("selectedAnimal"));
       //handle cases when the visitor dont have enought coins
       if (selectedAnimal.isPredator) {
-        const selectedAnimal = JSON.parse(
-          localStorage.getItem("selectedAnimal")
-        );
-
         visitorGotEaten(selectedAnimal, currentVisitor);
       } else {
-        const selectedAnimal = JSON.parse(
-          localStorage.getItem("selectedAnimal")
-        );
-
         animalEscaped(selectedAnimal);
       }
     }
@@ -138,7 +121,13 @@ function feedAnimal() {
 }
 
 const feedAnimalButton = document.getElementById("feed-animal");
-feedAnimalButton.addEventListener("click", feedAnimal);
+if (feedAnimalButton) {
+  feedAnimalButton.addEventListener("click", () => {
+    const selectedAnimal = JSON.parse(localStorage.getItem("selectedAnimal"));
+    trackFeeding(selectedAnimal);
+    feedAnimal();
+  });
+}
 
 // Function to handle when the visitor gets eaten
 function visitorGotEaten(animal, visitor) {

@@ -139,7 +139,6 @@ function filteredAnimals() {
   const minWeightFilter = localStorage.getItem(minWeightFilterKey);
   return animals.filter((animal) => {
     //checking name filter
-
     if (
       nameFilter &&
       !animal.name.toLowerCase().includes(nameFilter.toLowerCase())
@@ -204,6 +203,7 @@ function setupFilterListeners() {
     console.log("habitat input changed");
     input.addEventListener("change", () => {
       setFilterOnLocalStorage(habitatFilterKey, input.value);
+      renderAvailableAnimals();
     });
   });
 
@@ -279,16 +279,6 @@ function getAnimalHTMLCard(animal) {
     `;
 }
 
-//       <button type="button" class="visit-btn btn btn-outline-success">Visit</button>
-
-{
-  /* <p>isPredator: ${animal.isPredator}</p>
-          <p>Weight: ${animal.weight} kg</p>
-          <p>Height: ${animal.height} cm</p>
-          <p>Color: ${animal.color}</p>
-          <p>Habitat: ${animal.habitat}</p> */
-}
-
 function clearAllFilters() {
   nameInput.value = "";
   habitatInputs.forEach((input) => (input.checked = false));
@@ -314,7 +304,6 @@ window.onload = function () {
   renderNavbar();
   renderColorDropdown();
   loadFiltersFromLocalStorage(); // load filter values from local storage
-
   renderAvailableAnimals();
   setupFilterListeners(); // set up event listeners for other filters
 };

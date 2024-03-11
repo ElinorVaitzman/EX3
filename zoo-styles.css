@@ -108,7 +108,6 @@ form#visitor-form {
   height: 100%;
   color: #002200;
   padding: 0 30px 0 105px;
-  /* padding: 0 30px 0 6px; */
   transition: all ease 0.45s;
 }
 
@@ -131,14 +130,6 @@ form#visitor-form {
 .main-btn:hover {
   box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
     0 17px 50px 0 rgba(0, 0, 0, 0.19);
-}
-
-/* לבדוק אם צריך את זה בכלל */
-.radio-box {
-  /* display: inline-block; */
-  width: 100%;
-  margin-bottom: -15px;
-  /* margin-top: 10px; */
 }
 
 .login-from-signup-page {
@@ -180,9 +171,15 @@ form#visitor-form {
   margin-bottom: 25px;
 }
 
+div.card {
+  border: white;
+  width: 15rem;
+}
+
 .visitor-card {
-  width: 10rem;
   display: flex;
+  width: 15rem;
+
   justify-content: center;
   align-items: center;
   max-width: 18rem;
@@ -213,20 +210,9 @@ h5 {
   font-size: 15 px !important;
 }
 
-/* .visitor-card h5 {
-  text-align: center;
-} */
-
-/* .visitor-card p {
-  text-align: center;
-  padding: 2px 6px;
-} */
-
-/* .card-coins {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
+#visitor-dialog.btn {
+  margin-left: 10px;
+}
 
 img.card-coins-img {
   width: 16px;
@@ -377,19 +363,30 @@ nav#navbar {
   font-size: 16px;
 }
 
-#reset-button {
+#reset-button,
+.nav-btn {
   background-color: #388e3c;
   color: white;
-  padding: 8px 16px;
+  padding: 5px 16px;
   border-radius: 5px;
   border: none;
   cursor: pointer;
   font-size: 16px;
 }
 
-#reset-button:hover {
+.nav-btn:hover {
   background-color: #8bc34a;
   color: #002200;
+}
+
+button#reset-button {
+  background-color: #8bc34a;
+  color: black;
+}
+#reset-button:hover {
+  background-color: #002200;
+  color: white;
+  border: 1px solid white;
 }
 
 /* ZOO PAGE */
@@ -537,11 +534,15 @@ div.selected-animal {
 }
 
 .headline h2 {
-  margin-bottom: 10px;
-  margin-top: 15px;
-  /* background: rgba(0, 0, 0, 0.2); */
-  background: rgba(257, 257, 257, 0.7);
+  background: #4caf50;
   color: #002200;
+  font-weight: 600;
+  width: 100%;
+  text-align: center;
+  margin: 0 0;
+  padding: 8px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 .headline {
@@ -565,7 +566,8 @@ div.selected-animal {
 
 img.related-animal-image {
   width: 100%;
-  border-radius: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 div#related-animals {
@@ -574,6 +576,29 @@ div#related-animals {
   align-items: center;
   flex-wrap: wrap;
   gap: 15px;
+  background-color: #4caf50;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding-top: 5px;
+  padding-bottom: 15px;
+}
+
+.feed-button {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.feed-button:hover {
+  background-color: #45a049;
 }
 
 /* Modal background */
@@ -603,22 +628,45 @@ div.modal-content {
   align-items: center;
 }
 
-/* The Close Button */
-/* .close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin: 15px;
-  cursor: pointer;
-} */
+/* DASHBOARD PAGE */
+#dashboard-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 50px;
+}
 
-/* .close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-} */
+.visited-container,
+.fed-container,
+.favorite-container {
+  width: 30%;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: white;
+  text-align: center;
+  box-shadow: rgba(17, 12, 46, 0.9);
+}
+
+.visited-container h2,
+.fed-container h2,
+.favorite-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.visited-list,
+.fed-list,
+.favorite-animal {
+  list-style: none;
+  padding: 0;
+}
+
+.visited-list li,
+.fed-list li {
+  margin-bottom: 10px;
+}
+
+.favorite-animal {
+  font-weight: bold;
+  margin-top: 20px;
+}

@@ -26,7 +26,7 @@ document.body.classList.remove("dialog-opened");
 //generating visitors cards
 const getVisitorHTMLCard = (visitor) => {
   const visitorCardTemplate = `
-  <div class="card" style="width: 10rem;">
+  <div class="card" >
   <img class="card-img-top" src="./zoo-images/man.png" alt="${visitor.name}"/>
   <div class="card-body">
   <h5 class="card-title">${visitor.name}</h5>
@@ -55,6 +55,7 @@ const getCloseModalHTMLButton = () => {
 const getChooseVisitorButton = (visitor) => {
   const chooseButton = document.createElement("button");
   chooseButton.className = "btn";
+  chooseButton.classList.add = "choose-btn";
   chooseButton.innerText = "Choose visitor";
   chooseButton.addEventListener("click", () => {
     console.log(visitor);
@@ -81,10 +82,6 @@ const getSearchBox = () => {
   searchInput.id = "search-input";
   searchInput.placeholder = "Search visitor by username";
   searchInput.className = "form-control my-4";
-  // searchInput.oninput = (event) => {
-  //   visitorsForView = visitors.filter((visitor) =>
-  //     visitor.name.includes(event.target.value)
-  //   );})
 
   searchInput.addEventListener("input", (event) => {
     const searchTerm = event.target.value.trim().toLowerCase(); // convert search term to lowercase
@@ -129,7 +126,6 @@ const getEmptyCardsHTMLTemplate = () => {
     <p>We're sorry, but no visitors match your search.</p>
     <button id="clear-filter-btn" class="btn btn-dark">Search Another Visitor</button>
   `;
-  // emptyTemplateWrapper.innerHTML = emptyTemplate;
   //adds an event listener to the button with the id "clear-filter-btn"
   emptyTemplateWrapper.children["clear-filter-btn"].addEventListener(
     "click",
@@ -160,6 +156,8 @@ function loginAsVisitor(visitorName) {
       } else {
         // if there is no current visitor, proceed with the login directly
         connect = true;
+        // selectedVisitor = currentVisitor;
+        localStorage.setItem("currentVisitor", JSON.stringify(selectedVisitor));
       }
     }
   }
@@ -214,15 +212,6 @@ zooButton.addEventListener("click", () => {
   if (currentVisitor) {
     const stringifiedCurrentVisitor = localStorage.getItem("currentVisitor");
     const currentVisitor = JSON.parse(stringifiedCurrentVisitor);
-    // // play sound
-    // console.log("Playing sound");
-    // const audio = new Audio(
-    //   "C:UserselinoDesktopאינטרנטיות 1Task3\ruppin-frontend-lecturesanimalszoo-soundscrowdyayapplause25.mp3"
-    // );
-    // audio.play();
-
-    // display alert
-    alert("Yey! Let's go to the Zoo!");
 
     //redirect to the zoo page
     window.location.href = "zoo.html";

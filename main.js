@@ -3,121 +3,121 @@ let visitors = [
   {
     name: "John Smith",
     coins: 50,
-    interactions: {},
+    visits: {},
     feedings: {},
   },
   {
     name: "Emily Johnson",
     coins: 50,
-    interactions: {},
+    visits: {},
     feedings: {},
   },
   {
     name: "Michael Williams",
     coins: 50,
-    interactions: {},
+    visits: {},
     feedings: {},
   },
   {
     name: "Jessica Brown",
     coins: 50,
-    interactions: {},
+    visits: {},
     feedings: {},
   },
   {
     name: "Christopher Jones",
     coins: 50,
-    interactions: {},
+    visits: {},
     feedings: {},
   },
   {
     name: "Ashley Davis",
     coins: 50,
-    interactions: {},
+    visits: {},
     feedings: {},
   },
   {
     name: "Matthew Miller",
     coins: 50,
-    interactions: {},
+    visits: {},
     feedings: {},
   },
   {
     name: "Amanda Wilson",
     coins: 50,
-    interactions: {},
+    visits: {},
     feedings: {},
   },
   {
     name: "David Moore",
     coins: 50,
-    interactions: {},
+    visits: {},
     feedings: {},
   },
   {
     name: "Sarah Taylor",
     coins: 50,
-    interactions: {},
+    visits: {},
     feedings: {},
   },
   {
     name: "James Anderson",
     coins: 50,
-    interactions: {},
+    visits: {},
     feedings: {},
   },
   {
     name: "Jennifer Thomas",
     coins: 50,
-    interactions: {},
+    visits: {},
     feedings: {},
   },
   {
     name: "Robert Jackson",
     coins: 50,
-    interactions: {},
+    visits: {},
     feedings: {},
   },
   {
     name: "Elizabeth White",
     coins: 50,
-    interactions: {},
+    visits: {},
     feedings: {},
   },
   {
     name: "Daniel Harris",
     coins: 50,
-    interactions: {},
+    visits: {},
     feedings: {},
   },
   {
     name: "Melissa Martin",
     coins: 50,
-    interactions: {},
+    visits: {},
     feedings: {},
   },
   {
     name: "William Thompson",
     coins: 50,
-    interactions: {},
+    visits: {},
     feedings: {},
   },
   {
     name: "Linda Garcia",
     coins: 50,
-    interactions: {},
+    visits: {},
     feedings: {},
   },
   {
     name: "Joseph Martinez",
     coins: 50,
-    interactions: {},
+    visits: {},
     feedings: {},
   },
   {
     name: "Karen Robinson",
     coins: 50,
-    interactions: {},
+    visits: {},
     feedings: {},
   },
 ];
@@ -158,7 +158,7 @@ let animals = [
     height: 120,
     color: "brown",
     habitat: "land",
-    image: "https://i.ibb.co/qDQzMFP/tiger2.jpg",
+    image: "https://i.ibb.co/XZKXphD/final-tiger.png",
     angryImage: "https://i.ibb.co/PgpV2zX/angry-tiger2.png",
   },
   {
@@ -248,7 +248,13 @@ function renderNavbar() {
     <div class="navbar-right">
     <h5>Choose Visitor:</h5>
       <select id="visitors-dropdown"></select>
+      <div class="nav-buttons">
+      <button id="zoo-button" class="nav-btn">Zoo</button>
+      <button id="animal-button" class="nav-btn">Animal</button>
+      <button id="dashboard-button" class="nav-btn">Dashboard</button>
+      <button id="logout-button" class="nav-btn">Logout</button>
       <button id="reset-button">Reset</button>
+      </div>
     </div>
   </div>
 </nav>
@@ -277,11 +283,13 @@ function renderNavbar() {
   });
   // event listener to visitors dropdown
   visitorsDropdown.addEventListener("change", (e) => {
-    const selectedVisitor = visitors.find(
-      (visitor) => visitor.name === e.target.value
+    const selectedVisitorName = e.target.value;
+    const updatedVisitors = JSON.parse(localStorage.getItem("visitors"));
+    const selectedVisitor = updatedVisitors.find(
+      (visitor) => visitor.name === selectedVisitorName
     );
     localStorage.setItem("currentVisitor", JSON.stringify(selectedVisitor));
-    location.reload();
+    renderNavbar();
   });
   if (currentVisitor) {
     visitorsDropdown.value = currentVisitor.name;
@@ -293,16 +301,42 @@ function renderNavbar() {
     localStorage.clear(); //clearing the local storage
     location.reload();
   });
+  //event listener to log out button
+  const logoutButton = document.getElementById("logout-button");
+  logoutButton.addEventListener("click", logout);
+
+  // event listener to dashboard button
+  const dashboardButton = document.getElementById("dashboard-button");
+  dashboardButton.addEventListener("click", () => {
+    window.location.href = "dashboard.html";
+  });
+  // event listener to animal button
+  const animalButton = document.getElementById("animal-button");
+  animalButton.addEventListener("click", () => {
+    window.location.href = "animal.html";
+  });
+
+  //event listener to zoo button
+  const zooButton = document.getElementById("zoo-button");
+  zooButton.addEventListener("click", () => {
+    window.location.href = "zoo.html";
+  });
+}
+
+function logout() {
+  // ממשו את הלוגיקה שמתנתקת מאורח מחובר
+  // שימו לב לנקות את השדה המתאים בלוקל סטורג'
+  localStorage.removeItem("currentVisitor"); // remove current visitor from local storage
+  window.location.href = "signup.html";
 }
 
 // function to track visitor interactions with animals
 function trackVisitorInteraction(animal) {
-  let visitor = JSON.parse(localStorage.getItem("selectedVisitor"));
+  let visitor = JSON.parse(localStorage.getItem("currentVisitor"));
   if (!visitor) {
     console.error("Visitor not found.");
     return;
   }
-
   // update visitor's interactions with the current animal
   if (!visitor.visits) {
     visitor.visits = {};
@@ -312,24 +346,27 @@ function trackVisitorInteraction(animal) {
   } else {
     visitor.visits[animal.name]++;
   }
-
   // save updated visitor data to local storage
-  localStorage.setItem("selectedVisitor", JSON.stringify(visitor));
+  localStorage.setItem("currentVisitor", JSON.stringify(visitor));
 }
 
-// create the dashboard button
-const dashboardButton = document.createElement("li");
-dashboardButton.classList.add("nav-item");
-dashboardButton.innerHTML =
-  '<a href="dashboard.html" class="nav-link">Dashboard</a>';
+function trackFeeding(animal) {
+  let visitor = JSON.parse(localStorage.getItem("currentVisitor"));
+  if (!visitor) {
+    console.error("Visitor not found.");
+    return;
+  }
 
-//find the navbar container
-const navbar = document.querySelector(".navbar-nav");
+  // update visitor's feedings with the current animal
+  if (!visitor.feedings) {
+    visitor.feedings = {};
+  }
+  if (!visitor.feedings[animal.name]) {
+    visitor.feedings[animal.name] = 1;
+  } else {
+    visitor.feedings[animal.name]++;
+  }
 
-navbar.appendChild(dashboardButton);
-
-//********************** */
-function logout() {
-  //ממשו את הלוגיקה שמתנתקת מאורח מחובר
-  // שימו לב לנקות את השדה המתאים בלוקל סטורג'
+  // save updated visitor data to local storage
+  localStorage.setItem("currentVisitor", JSON.stringify(visitor));
 }
