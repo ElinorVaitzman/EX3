@@ -349,7 +349,7 @@ function trackVisitorInteraction(animal) {
   // save updated visitor data to local storage
   localStorage.setItem("currentVisitor", JSON.stringify(visitor));
 }
-
+// function to track visitors feedings
 function trackFeeding(animal) {
   let visitor = JSON.parse(localStorage.getItem("currentVisitor"));
   if (!visitor) {

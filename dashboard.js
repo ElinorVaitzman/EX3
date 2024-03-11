@@ -1,6 +1,6 @@
 // function to display animals visited by the current visitor
 function showVisitedAnimals() {
-  // Retrieve visitor data from local storage
+  // retrieve visitor data from local storage
   const currentVisitor = JSON.parse(localStorage.getItem("currentVisitor"));
   if (!currentVisitor || !currentVisitor.visits) {
     console.log("No visitor data found.");
@@ -50,7 +50,6 @@ function showFavoriteAnimal() {
     }
   });
 
-  // Display the favorite animal
   const favoriteAnimalContainer = document.getElementById("favorite-animal");
   favoriteAnimalContainer.innerHTML = `<h2>Favorite Animal</h2>`;
   favoriteAnimalContainer.innerHTML += `<p>${favoriteAnimal}</p>`;

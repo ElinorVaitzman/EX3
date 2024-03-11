@@ -178,8 +178,6 @@ function successfulLogin(selectedVisitor) {
   alert(`Visitor ${selectedVisitor.name} logged in.`);
   // reload the page
   location.reload();
-  // // redirect to the zoo page
-  // window.location.href = "zoo.html";
 }
 
 // function to render the navbar based on the current visitor
